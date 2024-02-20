@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dtf85dbdv1idj"]
+
+[ext_resource type="Script" path="res://Obstacle Dino Runner.gd" id="1_w3q8r"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_asmf2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a5x7f"]
+size = Vector2(58, 86)
+
+[node name="RigidBody2D" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_w3q8r")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(-1.33514e-05, 1.00001)
+scale = Vector2(58, 86)
+mesh = SubResource("QuadMesh_asmf2")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_a5x7f")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

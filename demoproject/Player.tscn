@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6n7k4y6gw1nw"]
+
+[ext_resource type="Script" path="res://Player Dino Runner.gd" id="1_l7fpx"]
+[ext_resource type="Script" path="res://nn.gd" id="2_srgn1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjf77"]
+size = Vector2(40, 83.5)
+
+[sub_resource type="QuadMesh" id="QuadMesh_7yd8a"]
+
+[sub_resource type="Gradient" id="Gradient_h5hym"]
+offsets = PackedFloat32Array(0, 0.99639)
+colors = PackedColorArray(1, 1, 1, 0.392157, 1, 1, 1, 0.392157)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_il1hp"]
+gradient = SubResource("Gradient_h5hym")
+width = 1
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+position = Vector2(-1, -6)
+collision_mask = 6
+script = ExtResource("1_l7fpx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bjf77")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+position = Vector2(1.05761, 0.189984)
+scale = Vector2(41.8848, 83.62)
+mesh = SubResource("QuadMesh_7yd8a")
+texture = SubResource("GradientTexture1D_il1hp")
+
+[node name="nn" type="nn" parent="."]
+layer_sizes = Array[int]([5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1])
+script = ExtResource("2_srgn1")

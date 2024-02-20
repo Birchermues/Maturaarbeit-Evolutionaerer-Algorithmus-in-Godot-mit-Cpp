@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://dauyc2mgkbqgr"]
+
+[ext_resource type="Script" path="res://Global.gd" id="1_ay41g"]
+[ext_resource type="PackedScene" uid="uid://c6n7k4y6gw1nw" path="res://Player.tscn" id="1_su0dn"]
+[ext_resource type="PackedScene" uid="uid://dtf85dbdv1idj" path="res://Obstacle Dino Runner.tscn" id="2_boota"]
+[ext_resource type="Script" path="res://Obstacle Spawn.gd" id="3_137ct"]
+[ext_resource type="Script" path="res://Score.gd" id="4_soaaa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10ng7"]
+size = Vector2(1423, 37)
+
+[sub_resource type="QuadMesh" id="QuadMesh_l2q77"]
+
+[node name="DinoRunner" type="Node2D"]
+script = ExtResource("1_ay41g")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+modulate = Color(0.823529, 0.564706, 0, 1)
+position = Vector2(688.5, 511)
+shape = SubResource("RectangleShape2D_10ng7")
+debug_color = Color(0.85098, 0, 0.894118, 0.419608)
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="StaticBody2D"]
+position = Vector2(686, 512)
+scale = Vector2(1428, 38)
+mesh = SubResource("QuadMesh_l2q77")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_su0dn")]
+
+[node name="RigidBody2D" parent="." instance=ExtResource("2_boota")]
+position = Vector2(1388, 126)
+
+[node name="Obstacle Spawn" type="Node2D" parent="." node_paths=PackedStringArray("timer")]
+position = Vector2(1097, 450)
+script = ExtResource("3_137ct")
+timer = NodePath("Timer")
+offset = 60.0
+
+[node name="Timer" type="Timer" parent="Obstacle Spawn"]
+autostart = true
+
+[node name="Scoreboard" type="RichTextLabel" parent="."]
+clip_contents = false
+layout_direction = 2
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 24.0
+offset_right = 339.0
+offset_bottom = 101.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_soaaa")
+
+[node name="Player Spawn" type="Node2D" parent="."]
+position = Vector2(145, 266)
+
+[connection signal="timeout" from="Obstacle Spawn/Timer" to="Obstacle Spawn" method="_on_timer_timeout"]
