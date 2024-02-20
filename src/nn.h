@@ -15,6 +15,8 @@ namespace godot {
                             
         private:
             double yPos;
+
+            std::vector<float> weights_and_biases;
         
         protected:
             static void _bind_methods();
@@ -32,10 +34,13 @@ namespace godot {
             std::vector<Layer> layers;
 
             std::vector<std::byte> serialize() const;
+            std::vector<float> float_serialize(const std::vector<Layer>& layers) const;
 
             void deserialize(const std::vector<std::byte>& binary);
-            
-            
+            void nn::float_deserialize(std::vector<float> &weights_and_biases);
+
+            void set_weights_and_biases(godot::TypedArray<float> weights_and_biases);
+            godot::TypedArray<float> get_weights_and_biases() const;
     };
 }
 

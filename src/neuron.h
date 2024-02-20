@@ -6,7 +6,8 @@ class Neuron;
 
 class Connection {
     public:
-        float weight = 0;
+        float weight = 0.0f;
+        float bias = 0.0f;
         Neuron& neuron;
 };
 

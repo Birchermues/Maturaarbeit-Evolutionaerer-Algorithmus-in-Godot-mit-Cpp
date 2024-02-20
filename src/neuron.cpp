@@ -12,7 +12,7 @@ void Neuron::calc_value() {
 
     for (const Connection& connection : connections)
     {
-        value += connection.weight * connection.neuron.value;
+        value += connection.weight * connection.neuron.value + connection.bias;
     }
     value = activation_function(value);
 }

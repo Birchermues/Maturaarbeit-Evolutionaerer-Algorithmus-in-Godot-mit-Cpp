@@ -14,9 +14,11 @@ void nn::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_yPos"), &nn::get_yPos);
     ClassDB::bind_method(D_METHOD("set_yPos", "yPos"), &nn::set_yPos);
 
-
     ClassDB::bind_method(D_METHOD("set_layers", "layer_layout"), &nn::set_layers);
     ClassDB::bind_method(D_METHOD("get_layers"), &nn::get_layers);
+
+    ClassDB::bind_method(D_METHOD("set_weights_and_biases", "weights_and_biases"), &nn::set_weights_and_biases);
+    ClassDB::bind_method(D_METHOD("get_weights_and_biases"), &nn::get_weights_and_biases);
 
     //ClassDB::add_property("yPos", PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
@@ -96,8 +98,9 @@ void fill_connections(std::vector<Layer>& layers) {
         {
             for(Neuron& neuron : layer.neurons)
             {
+                neuron.connections.clear();
                 for(Neuron& past_neuron : past_layer->neurons) {
-                    neuron.connections.push_back(Connection{0.0f, past_neuron});
+                    neuron.connections.push_back(Connection{0.0f, 0.0f, past_neuron});
                 }
             }
         }
@@ -105,24 +108,24 @@ void fill_connections(std::vector<Layer>& layers) {
     }
 }
 
-std::vector<float> float_serialize(const std::vector<Layer>& layers) {
-    std::vector<float> values;
+std::vector<float> nn::float_serialize(const std::vector<Layer>& layers) const {
+    std::vector<float> weights_and_biases;
 
     for (const Layer& layer : layers) {
         for (const Neuron& neuron : layer.neurons) {
             for (const Connection& connection : neuron.connections) {
-                values.push_back(connection.weight);
+                weights_and_biases.push_back(connection.weight);
             }
         }
     }
 
-    return values;
+    return weights_and_biases;
 }
 
 std::vector<std::byte> nn::serialize() const {
     std::vector<std::byte> bytes;
 
-    auto values = float_serialize(layers);
+    std::vector<float> values = nn::float_serialize(layers);
 
     bytes.resize(values.size() * sizeof(float));
 
@@ -131,7 +134,40 @@ std::vector<std::byte> nn::serialize() const {
     return bytes;
 }
 
-void godot::nn::deserialize(const std::vector<std::byte> &binary)
-{
 
+void nn::float_deserialize(std::vector<float> &weights_and_biases) {
+    int index = 0;
+    for (Layer& layer : layers) {
+        for (Neuron& neuron : layer.neurons) {
+            for (Connection& connection : neuron.connections) {
+                connection.weight = weights_and_biases.at(index);
+                connection.bias = weights_and_biases.at(index + 1);
+
+                index += 2;
+            }
+        }
+    }
+}
+
+void nn::deserialize(const std::vector<std::byte> &binary) {
+    
+}
+
+
+
+void nn::set_weights_and_biases(godot::TypedArray<float> weights_and_biases) {
+    nn::weights_and_biases.clear();
+    for (int i = 0; i < weights_and_biases.size(); i++) {
+        nn::weights_and_biases.push_back(weights_and_biases[i]);
+    }
+}
+
+godot::TypedArray<float> nn::get_weights_and_biases() const {
+    godot::TypedArray<float> weights_and_biases;
+
+    for (const float& weight_or_bias : nn::weights_and_biases) {
+        weights_and_biases.push_back(weight_or_bias);
+    }
+
+    return weights_and_biases;
 }

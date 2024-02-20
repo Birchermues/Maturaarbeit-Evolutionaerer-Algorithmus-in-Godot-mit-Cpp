@@ -31,5 +31,5 @@ mesh = SubResource("QuadMesh_7yd8a")
 texture = SubResource("GradientTexture1D_il1hp")
 
 [node name="nn" type="nn" parent="."]
-layer_sizes = Array[int]([5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 1])
+layer_sizes = Array[int]([4])
 script = ExtResource("2_srgn1")
