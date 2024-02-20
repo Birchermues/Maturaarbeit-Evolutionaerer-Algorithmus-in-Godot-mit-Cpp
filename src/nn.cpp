@@ -25,7 +25,7 @@ void nn::_bind_methods() {
     //ClassDB::add_property("yPos", PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
 
-    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "layer_sizes"), "set_layers", "get_layers");
+    //ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "layer_sizes"), "set_layers", "get_layers");
 
 
     //ADD_SIGNAL(MethodInfo("lol_signal", PropertyInfo(Variant::INT, "number")));
@@ -75,13 +75,6 @@ godot::TypedArray<int> nn::get_layers() const {
 
     return layer_layout;
 }
-
-
-void nn::_process(double delta) {
-    UtilityFunctions::print("it works every frame");
-
-}
-
 
 
 std::vector<Layer> create_layers(std::vector<int> layer_layout) {
@@ -162,6 +155,7 @@ void nn::set_weights_and_biases(godot::TypedArray<float> weights_and_biases) {
     for (int i = 0; i < weights_and_biases.size(); i++) {
         nn::weights_and_biases.push_back(weights_and_biases[i]);
     }
+    nn::float_deserialize(nn::weights_and_biases);
 }
 
 godot::TypedArray<float> nn::get_weights_and_biases() const {

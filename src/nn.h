@@ -23,8 +23,6 @@ namespace godot {
             void set_yPos(const double yPos);
             double get_yPos() const;
 
-            void _process(double delta);
-
             void set_layers(TypedArray<int> layer_layout);
             TypedArray<int> get_layers() const;
 

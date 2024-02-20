@@ -11,13 +11,13 @@ func _ready():
 		push_error("must be more layers than 2")
 	
 	w_and_b = neural_network_res.weights_and_biases
-	layer_sizes = neural_network_res.layout
-	
+	set_layers(neural_network_res.layout)
 	match_weights_and_biases()
+	
 	
 	#print(get_weights_and_biases())
 	
-	for i in range(layer_sizes[layer_sizes.size()-1]):
+	for i in range(get_layers()[get_layers().size()-1]):
 		inputs.append(0.0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,30 +38,29 @@ func _process(delta):
 
 	var outputs : Array[float] = solve(inputs)
 	
-	#print("outputs: " + str(outputs))
+	print("outputs: " + str(outputs))
 
 func match_weights_and_biases():
 	var weights_and_biases_count : int = 0
 	
-	for i in range(layer_sizes.size() - 2):
-		weights_and_biases_count += layer_sizes[i] * layer_sizes[i+1]
+	for i in range(get_layers().size() - 1):
+		weights_and_biases_count += get_layers()[i] * get_layers()[i+1]
 	
 	#weights_and_biases_count *= 2;
 	if weights_and_biases_count * 2 == w_and_b.size():
-		print("amount of weights and biases provided equals the required amount: ", weights_and_biases_count, " are expected and ", w_and_b.size(), " are provided")
+		print("amount of weights and biases provided equals the required amount: ", weights_and_biases_count*2, " are expected and ", w_and_b.size(), " are provided")
 		set_weights_and_biases(w_and_b);
 	else:
-		push_warning("amount of weights and biases does NOT equal the required amount: ", weights_and_biases_count, " are expected and ", w_and_b.size(), " are provided")
+		push_warning("amount of weights and biases does NOT equal the required amount: ", weights_and_biases_count*2, " are expected and ", w_and_b.size(), " are provided")
 		push_warning("weights and biases will be generated and randomized")
 		randomize_weights_and_biases(weights_and_biases_count)
 	
 
 func randomize_weights_and_biases(weights_and_biases_count : int):
-	var weights_and_biases : Array[float] = []
-	
-	weights_and_biases = []
+	w_and_b = []
 	for i in range(weights_and_biases_count):
-		weights_and_biases.append(randf_range(-0.5, 0.5))
-		weights_and_biases.append(randf_range(-1, 1))
+		w_and_b.append(randf_range(-0.5, 0.5))
+		w_and_b.append(randf_range(-1, 1))
 	
-	set_weights_and_biases(weights_and_biases)
+	print(w_and_b)
+	set_weights_and_biases(w_and_b)
