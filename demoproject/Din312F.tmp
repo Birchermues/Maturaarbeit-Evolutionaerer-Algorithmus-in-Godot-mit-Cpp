@@ -11,6 +11,7 @@ size = Vector2(1423, 37)
 
 [node name="DinoRunner" type="Node2D"]
 script = ExtResource("1_ay41g")
+player_count = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2

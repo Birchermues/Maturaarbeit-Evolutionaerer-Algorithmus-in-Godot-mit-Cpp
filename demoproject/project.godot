@@ -13,4 +13,9 @@ config_version=5
 config/name="MA_Neuste_version"
 run/main_scene="res://Dino Runner.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
+run/max_fps=60
 config/icon="res://icon.svg"
+
+[debug]
+
+settings/stdout/print_fps=true

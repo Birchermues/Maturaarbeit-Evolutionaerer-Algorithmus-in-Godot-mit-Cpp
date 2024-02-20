@@ -3,16 +3,18 @@ extends nn
 @export var neural_network_res : NeuralNetworkRes;
 
 var inputs : Array[float] = []
+var w_and_b : Array[float];
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if (neural_network_res.layout.size() < 3):
 		push_error("must be more layers than 2")
 	
-	
-	var w_and_b : Array[float] = neural_network_res.weights_and_biases
-	set_weights_and_biases(w_and_b);
+	w_and_b = neural_network_res.weights_and_biases
 	layer_sizes = neural_network_res.layout
+	
+	match_weights_and_biases()
+	
 	#print(get_weights_and_biases())
 	
 	for i in range(layer_sizes[layer_sizes.size()-1]):
@@ -21,7 +23,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	var player_pos : Vector2 = get_parent().position
-	inputs[0] = (player_pos.y)
+
 	
 	var obstacles := get_node("/root/DinoRunner/Obstacle Spawn").get_children()
 	
@@ -30,9 +32,36 @@ func _process(delta):
 		var distance :float = obstacle.position.x - player_pos.x
 		if (distance < closest_obstacle):
 			closest_obstacle = distance
-	
+			
+	inputs[0] = player_pos.y
 	inputs[1] = closest_obstacle
 
 	var outputs : Array[float] = solve(inputs)
 	
 	#print("outputs: " + str(outputs))
+
+func match_weights_and_biases():
+	var weights_and_biases_count : int = 0
+	
+	for i in range(layer_sizes.size() - 2):
+		weights_and_biases_count += layer_sizes[i] * layer_sizes[i+1]
+	
+	#weights_and_biases_count *= 2;
+	if weights_and_biases_count * 2 == w_and_b.size():
+		print("amount of weights and biases provided equals the required amount: ", weights_and_biases_count, " are expected and ", w_and_b.size(), " are provided")
+		set_weights_and_biases(w_and_b);
+	else:
+		push_warning("amount of weights and biases does NOT equal the required amount: ", weights_and_biases_count, " are expected and ", w_and_b.size(), " are provided")
+		push_warning("weights and biases will be generated and randomized")
+		randomize_weights_and_biases(weights_and_biases_count)
+	
+
+func randomize_weights_and_biases(weights_and_biases_count : int):
+	var weights_and_biases : Array[float] = []
+	
+	weights_and_biases = []
+	for i in range(weights_and_biases_count):
+		weights_and_biases.append(randf_range(-0.5, 0.5))
+		weights_and_biases.append(randf_range(-1, 1))
+	
+	set_weights_and_biases(weights_and_biases)
