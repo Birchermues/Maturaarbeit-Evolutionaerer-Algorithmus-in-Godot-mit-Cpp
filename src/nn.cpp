@@ -20,6 +20,8 @@ void nn::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_weights_and_biases", "weights_and_biases"), &nn::set_weights_and_biases);
     ClassDB::bind_method(D_METHOD("get_weights_and_biases"), &nn::get_weights_and_biases);
 
+    ClassDB::bind_method(D_METHOD("solve", "Input"), &nn::solve);
+
     //ClassDB::add_property("yPos", PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
 
@@ -170,4 +172,20 @@ godot::TypedArray<float> nn::get_weights_and_biases() const {
     }
 
     return weights_and_biases;
+}
+
+
+godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
+    for (Layer &layer : layers) {
+        layer.calc_values();
+    }
+
+    Layer output_layer = layers.at(layers.size()-1);
+
+
+    godot::TypedArray<float> outputs;
+    for (Neuron &neuron : output_layer.neurons) {
+        outputs.push_back(neuron.value);
+    }
+    return outputs;
 }

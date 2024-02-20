@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c6n7k4y6gw1nw"]
+[gd_scene load_steps=8 format=3 uid="uid://c6n7k4y6gw1nw"]
 
 [ext_resource type="Script" path="res://Player Dino Runner.gd" id="1_l7fpx"]
 [ext_resource type="Script" path="res://nn.gd" id="2_srgn1"]
+[ext_resource type="Resource" uid="uid://c8exmsiify5hb" path="res://Neual Networks/Test_network.tres" id="3_yoldx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bjf77"]
 size = Vector2(40, 83.5)
@@ -31,5 +32,5 @@ mesh = SubResource("QuadMesh_7yd8a")
 texture = SubResource("GradientTexture1D_il1hp")
 
 [node name="nn" type="nn" parent="."]
-layer_sizes = Array[int]([4])
 script = ExtResource("2_srgn1")
+neural_network_res = ExtResource("3_yoldx")

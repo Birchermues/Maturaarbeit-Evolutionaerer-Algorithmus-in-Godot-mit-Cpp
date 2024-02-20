@@ -1,13 +1,10 @@
 #pragma once
 
-//#include "../godot-cpp/gen/include/godot_cpp/classes/node.hpp"
-
 #include <godot_cpp/classes/node.hpp>
 #include "neuron.h"
 #include "layer.h"
 
 #include <vector>
-
 
 namespace godot {
     class nn: public Node {
@@ -41,6 +38,8 @@ namespace godot {
 
             void set_weights_and_biases(godot::TypedArray<float> weights_and_biases);
             godot::TypedArray<float> get_weights_and_biases() const;
+
+            godot::TypedArray<float> solve(godot::TypedArray<float> Inputs);
     };
 }
 

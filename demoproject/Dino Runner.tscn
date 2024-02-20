@@ -11,7 +11,7 @@ size = Vector2(1423, 37)
 
 [node name="DinoRunner" type="Node2D"]
 script = ExtResource("1_ay41g")
-player_count = 100
+player_count = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2
@@ -30,11 +30,8 @@ mesh = SubResource("QuadMesh_l2q77")
 [node name="Obstacle Spawn" type="Node2D" parent="." node_paths=PackedStringArray("timer")]
 position = Vector2(1097, 450)
 script = ExtResource("3_137ct")
-timer = NodePath("Timer")
+timer = NodePath("../Timer")
 offset = 60.0
-
-[node name="Timer" type="Timer" parent="Obstacle Spawn"]
-autostart = true
 
 [node name="Scoreboard" type="RichTextLabel" parent="."]
 clip_contents = false
@@ -53,4 +50,7 @@ script = ExtResource("4_soaaa")
 [node name="Player Spawn" type="Node2D" parent="."]
 position = Vector2(145, 266)
 
-[connection signal="timeout" from="Obstacle Spawn/Timer" to="Obstacle Spawn" method="_on_timer_timeout"]
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="Obstacle Spawn" method="_on_timer_timeout"]

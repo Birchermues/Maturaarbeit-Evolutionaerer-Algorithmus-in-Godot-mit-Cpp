@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="MA_NEU"
+config/name="MA_Neuste_version"
 run/main_scene="res://Dino Runner.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
