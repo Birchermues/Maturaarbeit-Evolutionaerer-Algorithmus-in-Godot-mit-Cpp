@@ -21,6 +21,7 @@ func _process(delta):
 
 func restart():
 	print("ROUND OVER, NEXT ROUND STARTS")
+	change_genes()
 	time = 0.0;
 	for obstacle in $"Obstacle Spawn".get_children():
 		obstacle.queue_free()
@@ -29,8 +30,7 @@ func restart():
 		player.dead = false
 		player.show()
 		player.score = 0.0
-		
-	change_genes()
+
 	player_arr.clear()
 	
 	
@@ -42,14 +42,25 @@ func add_dead_player(player : CharacterBody2D):
 		restart()
 		
 func change_genes():
-	for i in range(player_arr.size() - 5):
+	player_arr.sort_custom(custom_sort)
+	print("best score: ", player_arr[0].score)
+	for i in range(player_arr.size() - 1):
 		var player = player_arr[i]
+		
 		var player_net : nn = player.get_node("nn")
-		player_net.w_and_b = player_arr[-1].get_node("nn").w_and_b
+		player_net.w_and_b = player_arr[0].get_node("nn").w_and_b
 		#Mutate
 		player_net.mutate_w_and_b(mut_chance, weight_mut_strength, bias_mut_strength)
 		
 
+func custom_sort(a : CharacterBody2D, b : CharacterBody2D):
+	if (a.score > b.score):
+		return b
+	if abs(a.score - b.score) < 0.01:
+		if randf() < 0.5:
+			return b
+
+	return a
 
 
 

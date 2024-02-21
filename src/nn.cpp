@@ -36,9 +36,7 @@ void nn::_bind_methods() {
 nn::nn() {
     if (Engine::get_singleton()->is_editor_hint()) {
         set_process_mode(Node::ProcessMode::PROCESS_MODE_DISABLED);
-    }
-    UtilityFunctions::print("update still works");
-    
+    } 
 }
 
 

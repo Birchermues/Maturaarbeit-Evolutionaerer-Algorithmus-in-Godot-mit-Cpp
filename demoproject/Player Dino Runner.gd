@@ -33,8 +33,9 @@ func kill():
 		dead = true
 		global = get_tree().root.get_child(0)
 		score = global.time
-		global.add_dead_player(self)
 		#print("Player died with score " + str(score))
+		global.add_dead_player(self)
+
 		hide()
 	
 func try_jump():

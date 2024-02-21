@@ -29,7 +29,7 @@ func _process(delta):
 	var obstacles := get_node("/root/DinoRunner/Obstacle Spawn").get_children()
 	#print("amount of obstacles: ", obstacles.size())
 	var closest_obstacle_height : float = 0.0
-	var closest_distance : float = 10000.0
+	var closest_distance : float = 1000.0
 	for obstacle in obstacles:
 		#print("obstacle X: ", obstacle.global_position.x, "   Player X: ", player_pos.x)
 		var distance : float = obstacle.global_position.x - player_pos.x
@@ -40,8 +40,8 @@ func _process(delta):
 			
 	inputs[0] = player_pos.y
 	#print(closest_obstacle)
-	inputs[1] = closest_distance
-	inputs[2] = closest_obstacle_height
+	inputs[1] = closest_distance / 500.0
+	inputs[2] = closest_obstacle_height / 100.0
 
 	if !get_parent().dead:
 		var outputs : Array[float] = solve(inputs)
