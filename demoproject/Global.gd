@@ -56,10 +56,6 @@ func change_genes():
 func custom_sort(a : CharacterBody2D, b : CharacterBody2D):
 	if (a.score > b.score):
 		return b
-	if abs(a.score - b.score) < 0.01:
-		if randf() < 0.5:
-			return b
-
 	return a
 
 
