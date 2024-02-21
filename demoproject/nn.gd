@@ -23,26 +23,30 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var player_pos : Vector2 = get_parent().position
+	var player_pos : Vector2 = get_parent().global_position
 
 	
 	var obstacles := get_node("/root/DinoRunner/Obstacle Spawn").get_children()
-	
-	var closest_obstacle : float = 100.0;
+	#print("amount of obstacles: ", obstacles.size())
+	var closest_obstacle : float = 10000.0;
 	for obstacle in obstacles:
-		var distance :float = obstacle.position.x - player_pos.x
-		if (distance < closest_obstacle):
-			closest_obstacle = distance
+		#print("obstacle X: ", obstacle.global_position.x, "   Player X: ", player_pos.x)
+		var distance : float = obstacle.global_position.x - player_pos.x
+		if distance < closest_obstacle:
+			if distance > 0.0:
+				closest_obstacle = distance
 			
 	inputs[0] = player_pos.y
+	#print(closest_obstacle)
 	inputs[1] = closest_obstacle
 
-	var outputs : Array[float] = solve(inputs)
-	
-	#print("outputs: " + str(outputs))
-	
-	if outputs[0] > outputs[1]:
-		get_parent().try_jump()
+	if !get_parent().dead:
+		var outputs : Array[float] = solve(inputs)
+		
+		#print("outputs: " + str(outputs))
+		
+		if outputs[0] > outputs[1]:
+			get_parent().try_jump()
 
 func match_weights_and_biases():
 	var weights_and_biases_count : int = 0
@@ -67,4 +71,12 @@ func randomize_weights_and_biases(weights_and_biases_count : int):
 		w_and_b.append(randf_range(-1, 1))
 	
 	#print(w_and_b)
+	set_weights_and_biases(w_and_b)
+	
+func mutate_w_and_b(mut_chance : float, weight_mut_strength : float, bias_mut_strength : float):
+	for i in range(w_and_b.size() / 2):
+		if randf() < mut_chance:
+			w_and_b[i*2] += randf_range(-1.0, 1.0) * weight_mut_strength
+			w_and_b[i*2 + 1] += randf_range(-1.0, 1.0) * bias_mut_strength
+			
 	set_weights_and_biases(w_and_b)

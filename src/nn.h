@@ -28,6 +28,8 @@ namespace godot {
 
             std::vector<Layer> layers;
 
+            void fill_connections();
+
             std::vector<std::byte> serialize() const;
             std::vector<float> float_serialize(const std::vector<Layer>& layers) const;
 
@@ -39,7 +41,9 @@ namespace godot {
 
             godot::TypedArray<float> solve(godot::TypedArray<float> Inputs);
 
-            void fill_connections();
+            void mutate(float strength);
+
+
     };
 }
 

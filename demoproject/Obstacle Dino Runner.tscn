@@ -5,15 +5,15 @@
 [sub_resource type="QuadMesh" id="QuadMesh_asmf2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a5x7f"]
-size = Vector2(58, 86)
+size = Vector2(133, 86)
 
 [node name="RigidBody2D" type="RigidBody2D"]
 gravity_scale = 0.0
 script = ExtResource("1_w3q8r")
 
 [node name="MeshInstance2D" type="MeshInstance2D" parent="."]
-position = Vector2(-1.33514e-05, 1.00001)
-scale = Vector2(58, 86)
+position = Vector2(-0.500002, 1.00001)
+scale = Vector2(133, 86)
 mesh = SubResource("QuadMesh_asmf2")
 
 [node name="Area2D" type="Area2D" parent="."]

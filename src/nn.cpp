@@ -183,19 +183,6 @@ godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
         layers.at(i).calc_values();
     }
 
-    //Debug
-    for (Layer &layer : layers) {
-        for (Neuron &neuron : layer.neurons) {
-            if (neuron.connections.size() == 0) {
-                //UtilityFunctions::print("FirstLayer");
-            }
-            else {
-                //UtilityFunctions::print(neuron.connections.at(0).weight);
-            }
-           
-        }
-    }
-
     Layer output_layer = layers.at(layers.size()-1);
 
 
@@ -205,4 +192,8 @@ godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
     }
 
     return outputs;
+}
+
+void nn::mutate(float strength) {
+    
 }

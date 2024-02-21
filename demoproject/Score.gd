@@ -1,8 +1,5 @@
 extends RichTextLabel
 
-
-var time := 0.0
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -10,8 +7,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	time += delta
-	var dino = $".."
-	dino.score = time
-	var score_rounded = floor(time)
+	var global = $".."
+	var score_rounded = floor(global.time)
 	text = "Score: " + str(score_rounded)

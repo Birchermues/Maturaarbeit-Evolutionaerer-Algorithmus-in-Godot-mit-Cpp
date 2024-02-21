@@ -20,9 +20,9 @@ func _process(delta):
 
 
 func _on_timer_timeout():
-	var min_time := 0.8 + (times - 1) * 0.2
+	var min_time := 1.0 + (times - 1) * 0.2
 	
-	timer.wait_time = randf_range(min_time, 1.5)
+	timer.wait_time = randf_range(min_time, 2.2)
 	
 	times = 1
 	

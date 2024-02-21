@@ -2,8 +2,9 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -900.0
-@onready var dino_runner = $".."
+@onready var global = $".."
 var dead : bool = false
+var score : float = 0.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity") * 2
@@ -28,11 +29,17 @@ func _physics_process(delta):
 	move_and_slide()
 	
 func kill():
-	dead = true
-	dino_runner = get_tree().root.get_child(0)
-	print("Player died with score " + str(dino_runner.score))
-	hide()
+	if not dead:
+		dead = true
+		global = get_tree().root.get_child(0)
+		score = global.time
+		global.add_dead_player(self)
+		#print("Player died with score " + str(score))
+		hide()
 	
 func try_jump():
 	if is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		return true
+	return false
+	
