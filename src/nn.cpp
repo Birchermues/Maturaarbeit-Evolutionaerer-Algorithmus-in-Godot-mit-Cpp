@@ -21,6 +21,7 @@ void nn::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_weights_and_biases"), &nn::get_weights_and_biases);
 
     ClassDB::bind_method(D_METHOD("solve", "Input"), &nn::solve);
+    ClassDB::bind_method(D_METHOD("fill_connections"), &nn::fill_connections);
 
     //ClassDB::add_property("yPos", PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
@@ -85,7 +86,7 @@ std::vector<Layer> create_layers(std::vector<int> layer_layout) {
     return layers;
 }
 
-void fill_connections(std::vector<Layer>& layers) {
+void nn::fill_connections() {
     Layer* past_layer{nullptr};
 
     for (Layer& layer : layers) {
@@ -170,8 +171,29 @@ godot::TypedArray<float> nn::get_weights_and_biases() const {
 
 
 godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
+    {
+        int i = 0;
+        for (Neuron &neuron : layers.at(0).neurons) {
+            neuron.value = Inputs[i];
+            i++;
+        }
+    }
+
+    for (int i = 1; i < layers.size(); i++) {
+        layers.at(i).calc_values();
+    }
+
+    //Debug
     for (Layer &layer : layers) {
-        layer.calc_values();
+        for (Neuron &neuron : layer.neurons) {
+            if (neuron.connections.size() == 0) {
+                //UtilityFunctions::print("FirstLayer");
+            }
+            else {
+                //UtilityFunctions::print(neuron.connections.at(0).weight);
+            }
+           
+        }
     }
 
     Layer output_layer = layers.at(layers.size()-1);
@@ -181,5 +203,6 @@ godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
     for (Neuron &neuron : output_layer.neurons) {
         outputs.push_back(neuron.value);
     }
+
     return outputs;
 }

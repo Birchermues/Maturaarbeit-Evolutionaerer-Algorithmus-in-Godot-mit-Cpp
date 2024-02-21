@@ -12,7 +12,7 @@ void Neuron::calc_value() {
 
     for (const Connection& connection : connections)
     {
-        value += connection.weight * connection.neuron.value + connection.bias;
+        value += (connection.weight * connection.neuron.value) + connection.bias;
     }
     value = activation_function(value);
 }
@@ -20,6 +20,9 @@ void Neuron::calc_value() {
 
 
 float Neuron::activation_function(float input) {
-    return input / (1.0f + std::abs(input));
+    //return input / (1.0f + std::abs(input));      //<---- more or less tanh
+    if (input > 0) {return input; }                 //<---- leaky relu
+    return input * 0.2f;
+
 }
 

@@ -38,6 +38,8 @@ namespace godot {
             godot::TypedArray<float> get_weights_and_biases() const;
 
             godot::TypedArray<float> solve(godot::TypedArray<float> Inputs);
+
+            void fill_connections();
     };
 }
 

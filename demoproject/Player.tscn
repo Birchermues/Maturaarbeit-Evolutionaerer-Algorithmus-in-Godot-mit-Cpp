@@ -32,5 +32,6 @@ mesh = SubResource("QuadMesh_7yd8a")
 texture = SubResource("GradientTexture1D_il1hp")
 
 [node name="nn" type="nn" parent="."]
+yPos = 3.77877e+40
 script = ExtResource("2_srgn1")
 neural_network_res = ExtResource("3_yoldx")

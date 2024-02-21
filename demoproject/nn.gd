@@ -12,6 +12,7 @@ func _ready():
 	
 	w_and_b = neural_network_res.weights_and_biases
 	set_layers(neural_network_res.layout)
+	fill_connections()
 	match_weights_and_biases()
 	
 	
@@ -38,7 +39,10 @@ func _process(delta):
 
 	var outputs : Array[float] = solve(inputs)
 	
-	print("outputs: " + str(outputs))
+	#print("outputs: " + str(outputs))
+	
+	if outputs[0] > outputs[1]:
+		get_parent().try_jump()
 
 func match_weights_and_biases():
 	var weights_and_biases_count : int = 0
@@ -51,10 +55,10 @@ func match_weights_and_biases():
 		print("amount of weights and biases provided equals the required amount: ", weights_and_biases_count*2, " are expected and ", w_and_b.size(), " are provided")
 		set_weights_and_biases(w_and_b);
 	else:
-		push_warning("amount of weights and biases does NOT equal the required amount: ", weights_and_biases_count*2, " are expected and ", w_and_b.size(), " are provided")
-		push_warning("weights and biases will be generated and randomized")
+		print("amount of weights and biases does NOT equal the required amount: ", weights_and_biases_count*2, " are expected and ", w_and_b.size(), " are provided")
+		print("weights and biases will be generated and randomized")
 		randomize_weights_and_biases(weights_and_biases_count)
-	
+
 
 func randomize_weights_and_biases(weights_and_biases_count : int):
 	w_and_b = []
@@ -62,5 +66,5 @@ func randomize_weights_and_biases(weights_and_biases_count : int):
 		w_and_b.append(randf_range(-0.5, 0.5))
 		w_and_b.append(randf_range(-1, 1))
 	
-	print(w_and_b)
+	#print(w_and_b)
 	set_weights_and_biases(w_and_b)
