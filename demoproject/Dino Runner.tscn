@@ -12,9 +12,9 @@ size = Vector2(1423, 37)
 [node name="DinoRunner" type="Node2D"]
 script = ExtResource("1_ay41g")
 player_count = 250
-mut_chance = 0.075
-weight_mut_strength = 0.185
-bias_mut_strength = 0.305
+mut_chance = 0.025
+weight_mut_strength = 0.005
+bias_mut_strength = 0.005
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2

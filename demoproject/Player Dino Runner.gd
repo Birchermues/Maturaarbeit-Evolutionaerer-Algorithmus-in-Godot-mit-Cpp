@@ -27,12 +27,13 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+	kill()
 	
 func kill():
 	if not dead:
 		dead = true
 		global = get_tree().root.get_child(0)
-		score = global.time
+		#score = global.time
 		#print("Player died with score " + str(score))
 		global.add_dead_player(self)
 

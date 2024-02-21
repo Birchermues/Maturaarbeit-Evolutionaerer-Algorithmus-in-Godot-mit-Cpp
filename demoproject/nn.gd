@@ -21,35 +21,50 @@ func _ready():
 	for i in range(get_layers()[0]):
 		inputs.append(0.0)
 
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var player_pos : Vector2 = get_parent().global_position
-
-	
-	var obstacles := get_node("/root/DinoRunner/Obstacle Spawn").get_children()
-	#print("amount of obstacles: ", obstacles.size())
-	var closest_obstacle_height : float = 0.0
-	var closest_distance : float = 1000.0
-	for obstacle in obstacles:
-		#print("obstacle X: ", obstacle.global_position.x, "   Player X: ", player_pos.x)
-		var distance : float = obstacle.global_position.x - player_pos.x
-		if distance < closest_distance:
-			if distance > 0.0:
-				closest_distance = distance
-				closest_obstacle_height = obstacle.position.y
-			
-	inputs[0] = player_pos.y
-	#print(closest_obstacle)
-	inputs[1] = closest_distance / 500.0
-	inputs[2] = closest_obstacle_height / 100.0
-
 	if !get_parent().dead:
-		var outputs : Array[float] = solve(inputs)
+		var player_pos : Vector2 = get_parent().global_position
+
 		
+		var obstacles := get_node("/root/DinoRunner/Obstacle Spawn").get_children()
+		#print("amount of obstacles: ", obstacles.size())
+		var closest_obstacle_height : float = 0.0
+		var closest_distance : float = 1000.0
+		for obstacle in obstacles:
+			#print("obstacle X: ", obstacle.global_position.x, "   Player X: ", player_pos.x)
+			var distance : float = obstacle.global_position.x - player_pos.x
+			if distance < closest_distance:
+				if distance > 0.0:
+					closest_distance = distance
+					closest_obstacle_height = obstacle.position.y
+				
+		#inputs[0] = player_pos.y
+		#print(closest_obstacle)
+		#inputs[1] = closest_distance / 500.0
+		#inputs[2] = closest_obstacle_height / 100.0
+			
+
+		
+		var x = 2.0#randf_range(2.0, 10.0)
+		var y = f(x)
+		
+		inputs[0] = x
+
+		var outputs : Array[float] = solve(inputs)   #SOLVE
+		
+		get_parent().score = -abs(y - outputs[0])
+		
+		#print("predicted: ", outputs[0], " actual: ", y)
+		#print("That means score is: ", get_parent().score)
 		#print("outputs: " + str(outputs))
 		
-		if outputs[0] > outputs[1]:
-			get_parent().try_jump()
+		#if outputs[0] > outputs[1]:
+		#	get_parent().try_jump()
+		
+func f(x):
+	return x * 5
 
 func match_weights_and_biases():
 	var weights_and_biases_count : int = 0
@@ -78,8 +93,9 @@ func randomize_weights_and_biases(weights_and_biases_count : int):
 	
 func mutate_w_and_b(mut_chance : float, weight_mut_strength : float, bias_mut_strength : float):
 	for i in range(w_and_b.size() / 2):
-		if randf() < mut_chance:
+		if randf_range(0.0, 1.0) < mut_chance:
 			w_and_b[i*2] += randf_range(-1.0, 1.0) * weight_mut_strength
 			w_and_b[i*2 + 1] += randf_range(-1.0, 1.0) * bias_mut_strength
 			
 	set_weights_and_biases(w_and_b)
+

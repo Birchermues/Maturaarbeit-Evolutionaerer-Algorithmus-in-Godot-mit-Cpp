@@ -12,12 +12,18 @@ var time:float = 0.0
 
 var player_arr : Array[CharacterBody2D] = []
 
+var x : float = 0.0
+var y : float = 0.0
+
 func _ready():
 	for i in player_count:
 		get_node("/root/DinoRunner/Player Spawn").add_child(player_scene.instantiate())
-		
+	
+
+	
 func _process(delta):
 	time += delta
+
 
 func restart():
 	print("ROUND OVER, NEXT ROUND STARTS")
@@ -44,20 +50,17 @@ func add_dead_player(player : CharacterBody2D):
 func change_genes():
 	player_arr.sort_custom(custom_sort)
 	print("best score: ", player_arr[0].score)
-	for i in range(player_arr.size() - 1):
+	for i in range(0, player_arr.size()):
 		var player = player_arr[i]
-		
+		#print(player.score)
 		var player_net : nn = player.get_node("nn")
-		player_net.w_and_b = player_arr[0].get_node("nn").w_and_b
+		#player_net.w_and_b = player_arr[floor(float(player_count)/float(i)) - 1].get_node("nn").w_and_b
+		player_net.w_and_b = player_arr[i % (player_count/3)].get_node("nn").w_and_b
 		#Mutate
-		player_net.mutate_w_and_b(mut_chance, weight_mut_strength, bias_mut_strength)
+		if i > 3:
+			player_net.mutate_w_and_b(mut_chance, weight_mut_strength * sqrt(i), bias_mut_strength * sqrt(i))
 		
 
-func custom_sort(a : CharacterBody2D, b : CharacterBody2D):
-	if (a.score > b.score):
-		return b
-	return a
-
-
-
+static func custom_sort(a : CharacterBody2D, b : CharacterBody2D):
+	return (a.score > b.score)
 
