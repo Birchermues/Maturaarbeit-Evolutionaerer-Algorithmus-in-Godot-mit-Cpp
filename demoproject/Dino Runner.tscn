@@ -36,6 +36,8 @@ script = ExtResource("3_137ct")
 timer = NodePath("../Timer")
 offset = 60.0
 multiple_obstacles = false
+high_obstacle_height = -150.0
+high_obstacle_chance = 0.5
 
 [node name="Scoreboard" type="RichTextLabel" parent="."]
 clip_contents = false

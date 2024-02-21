@@ -18,7 +18,7 @@ func _ready():
 	
 	#print(get_weights_and_biases())
 	
-	for i in range(get_layers()[get_layers().size()-1]):
+	for i in range(get_layers()[0]):
 		inputs.append(0.0)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,17 +28,20 @@ func _process(delta):
 	
 	var obstacles := get_node("/root/DinoRunner/Obstacle Spawn").get_children()
 	#print("amount of obstacles: ", obstacles.size())
-	var closest_obstacle : float = 10000.0;
+	var closest_obstacle_height : float = 0.0
+	var closest_distance : float = 10000.0
 	for obstacle in obstacles:
 		#print("obstacle X: ", obstacle.global_position.x, "   Player X: ", player_pos.x)
 		var distance : float = obstacle.global_position.x - player_pos.x
-		if distance < closest_obstacle:
+		if distance < closest_distance:
 			if distance > 0.0:
-				closest_obstacle = distance
+				closest_distance = distance
+				closest_obstacle_height = obstacle.position.y
 			
 	inputs[0] = player_pos.y
 	#print(closest_obstacle)
-	inputs[1] = closest_obstacle
+	inputs[1] = closest_distance
+	inputs[2] = closest_obstacle_height
 
 	if !get_parent().dead:
 		var outputs : Array[float] = solve(inputs)

@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_7u1k4")
-layout = Array[int]([2, 3, 3, 2])
+layout = Array[int]([3, 3, 3, 2])
 weights_and_biases = Array[float]([])
