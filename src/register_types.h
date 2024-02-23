@@ -5,4 +5,7 @@
 void initialize_nn();
 void uninitialize_nn();
 
+void initialize_ai_hub();
+void uninitialize_ai_hub();
+
 #endif

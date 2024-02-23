@@ -11,7 +11,7 @@ namespace godot {
         GDCLASS(nn, Node);
                             
         private:
-            double yPos;
+
 
             std::vector<float> weights_and_biases;
         
@@ -19,10 +19,9 @@ namespace godot {
             static void _bind_methods();
 
         public:
-            nn();
-            void set_yPos(const double yPos);
-            double get_yPos() const;
 
+            // NEURONS, LAYERS, CONNECTIONS, ETC.
+            nn();
             void set_layers(TypedArray<int> layer_layout);
             TypedArray<int> get_layers() const;
 
@@ -39,11 +38,24 @@ namespace godot {
             void set_weights_and_biases(godot::TypedArray<float> weights_and_biases);
             godot::TypedArray<float> get_weights_and_biases() const;
 
+
+            //SOLVING, FORWARD PROPAGATION
+
             godot::TypedArray<float> solve(godot::TypedArray<float> Inputs);
 
+
+            //MUTATION, MIXING UP THE GENES, RANDOMNESS
             void mutate(float strength);
 
+            bool operator<(const nn &other) const;
 
+            //TypedArray<float> scores;
+            std::vector<float> scores;
+            float score {0};
+
+            //float calc_score();
+            
+            //void reset_score();
     };
 }
 

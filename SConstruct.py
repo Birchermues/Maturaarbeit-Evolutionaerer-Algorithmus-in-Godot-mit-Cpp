@@ -21,4 +21,18 @@ else:
         source=sources,
     )
 
+if env["platform"] == "macos":
+    library2 = env.SharedLibrary(
+        "demoproject/bin/ai_hub.{}.{}.framework/ai_hub.{}.{}".format(
+            env["platform"], env["target"], env["platform"], env["target"]
+        ),
+        source=sources,
+    )
+else:
+    library2 = env.SharedLibrary(
+        "demoproject/bin/ai_hub{}{}".format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
+
 Default(library)
+Default(library2)

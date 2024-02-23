@@ -11,9 +11,6 @@
 using namespace godot;
 
 void nn::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_yPos"), &nn::get_yPos);
-    ClassDB::bind_method(D_METHOD("set_yPos", "yPos"), &nn::set_yPos);
-
     ClassDB::bind_method(D_METHOD("set_layers", "layer_layout"), &nn::set_layers);
     ClassDB::bind_method(D_METHOD("get_layers"), &nn::get_layers);
 
@@ -22,9 +19,6 @@ void nn::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("solve", "Input"), &nn::solve);
     ClassDB::bind_method(D_METHOD("fill_connections"), &nn::fill_connections);
-
-    //ClassDB::add_property("yPos", PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
 
     //ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "layer_sizes"), "set_layers", "get_layers");
 
@@ -39,13 +33,6 @@ nn::nn() {
     } 
 }
 
-
-void nn::set_yPos(const double yPos) {
-    this->yPos = yPos;
-}
-double nn::get_yPos() const {
-    return yPos;
-}
 
 void nn::set_layers(godot::TypedArray<int> layer_layout) {
     std::vector<int> sizes;
@@ -195,3 +182,8 @@ godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
 void nn::mutate(float strength) {
     
 }
+
+bool nn::operator< (const nn &other) const {
+    return other.score < other.score;
+}
+

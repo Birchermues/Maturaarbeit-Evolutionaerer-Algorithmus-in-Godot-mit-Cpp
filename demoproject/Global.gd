@@ -18,6 +18,7 @@ var y : float = 0.0
 func _ready():
 	for i in player_count:
 		get_node("/root/DinoRunner/Player Spawn").add_child(player_scene.instantiate())
+		
 	
 
 	
