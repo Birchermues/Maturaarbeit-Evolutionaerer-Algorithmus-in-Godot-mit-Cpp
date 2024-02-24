@@ -1,0 +1,152 @@
+[gd_scene load_steps=16 format=3 uid="uid://ca03qpvgdff2s"]
+
+[ext_resource type="PackedScene" uid="uid://vtmdw64wat" path="res://tank_player.tscn" id="1_ckda2"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jcjf6"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_550qj"]
+normal = Vector2(-1, 0)
+distance = -6400.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ig2hq"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_561th"]
+distance = -3600.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qx4q8"]
+size = Vector2(173.938, 929.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7r405"]
+size = Vector2(1204.97, 491.75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yovtc"]
+size = Vector2(1731.24, 113.938)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7fni7"]
+size = Vector2(91.4844, 1425.88)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5jjwp"]
+size = Vector2(364.629, 378.938)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ulh15"]
+size = Vector2(881.157, 994.734)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_54cbv"]
+size = Vector2(182.211, 730.367)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q8ff7"]
+size = Vector2(787.105, 175.184)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_arbr4"]
+size = Vector2(249.553, 488.592)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0i3bk"]
+size = Vector2(163.579, 730.367)
+
+[node name="TankGame" type="Node"]
+
+[node name="Game" type="Node2D" parent="."]
+
+[node name="PlayerSpawn" type="Node2D" parent="Game"]
+
+[node name="TankPlayer" parent="Game/PlayerSpawn" instance=ExtResource("1_ckda2")]
+position = Vector2(652, 526)
+
+[node name="Window" type="Window" parent="."]
+title = "AI Training"
+position = Vector2i(602, 36)
+size = Vector2i(600, 170)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Window"]
+offset_right = 40.0
+offset_bottom = 40.0
+text = "This is a rich text label:
+sadrf
+sdfg
+sdfg
+"
+fit_content = true
+autowrap_mode = 0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(3200, 1800)
+zoom = Vector2(0.25, 0.25)
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Obstacles"]
+
+[node name="l_border" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_jcjf6")
+
+[node name="r_border" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_550qj")
+
+[node name="t_border" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_ig2hq")
+
+[node name="b_border" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_561th")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(774, 1412)
+shape = SubResource("RectangleShape2D_qx4q8")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(1776, 467.875)
+shape = SubResource("RectangleShape2D_qx4q8")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(3355, 566.125)
+shape = SubResource("RectangleShape2D_7r405")
+
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(2553, 1638)
+shape = SubResource("RectangleShape2D_yovtc")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(3453, 2290)
+shape = SubResource("RectangleShape2D_7fni7")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(1296, 2290)
+shape = SubResource("RectangleShape2D_5jjwp")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(2021, 2931)
+shape = SubResource("RectangleShape2D_5jjwp")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(876, 3129)
+shape = SubResource("RectangleShape2D_5jjwp")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(5967.42, 3099.63)
+shape = SubResource("RectangleShape2D_ulh15")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(4535, 1638)
+shape = SubResource("RectangleShape2D_54cbv")
+
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(5239, 1638)
+shape = SubResource("RectangleShape2D_54cbv")
+
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(4452, 2653.41)
+shape = SubResource("RectangleShape2D_q8ff7")
+
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(4358, 3203)
+shape = SubResource("RectangleShape2D_arbr4")
+
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(5967, 1638)
+shape = SubResource("RectangleShape2D_54cbv")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="Obstacles/StaticBody2D"]
+position = Vector2(3875, 1172)
+shape = SubResource("RectangleShape2D_0i3bk")

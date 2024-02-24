@@ -16,18 +16,27 @@ void ai_hub::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("get_generation"), &ai_hub::get_generation);
     ClassDB::bind_method(D_METHOD("set_generation", "generation"), &ai_hub::set_generation);
+
     ClassDB::bind_method(D_METHOD("get_best_score"), &ai_hub::get_best_score);
     ClassDB::bind_method(D_METHOD("set_best_score", "bestScore"), &ai_hub::set_best_score);
+
     ClassDB::bind_method(D_METHOD("get_train_ai"), &ai_hub::get_train_ai);
     ClassDB::bind_method(D_METHOD("set_train_ai", "trainAi"), &ai_hub::set_train_ai);
+
     ClassDB::bind_method(D_METHOD("get_num_players"), &ai_hub::get_num_players);
     ClassDB::bind_method(D_METHOD("set_num_players", "numPlayers"), &ai_hub::set_num_players);
+
     ClassDB::bind_method(D_METHOD("get_mut_chance"), &ai_hub::get_mut_chance);
     ClassDB::bind_method(D_METHOD("set_mut_chance", "mutChance"), &ai_hub::set_mut_chance);
+
     ClassDB::bind_method(D_METHOD("get_weight_mut_strength"), &ai_hub::get_weight_mut_strength);
     ClassDB::bind_method(D_METHOD("set_weight_mut_strength", "weightMutStrength"), &ai_hub::set_weight_mut_strength);
+
     ClassDB::bind_method(D_METHOD("get_bias_mut_strength"), &ai_hub::get_bias_mut_strength);
     ClassDB::bind_method(D_METHOD("set_bias_mut_strength", "biasMutStrength"), &ai_hub::set_bias_mut_strength);
+
+    ClassDB::bind_method(D_METHOD("get_ai_player_group_name"), &ai_hub::get_ai_player_group_name);
+    ClassDB::bind_method(D_METHOD("set_ai_player_group_name", "groupName"), &ai_hub::set_ai_player_group_name);
     
     
     ADD_PROPERTY(PropertyInfo(Variant::INT, "generation"), "set_generation", "get_generation");

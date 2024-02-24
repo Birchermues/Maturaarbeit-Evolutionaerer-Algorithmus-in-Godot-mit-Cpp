@@ -25,6 +25,8 @@ namespace godot {
             float weight_mut_strength = 0.1f;
             float bias_mut_strength = 0.1f;
 
+            String ai_player_group_name;
+
             void sort_nns_on_score();
 
             TypedArray<nn> nns;
@@ -52,7 +54,10 @@ namespace godot {
             float get_bias_mut_strength() const { return bias_mut_strength; }
             void set_bias_mut_strength(float biasMutStrength) { bias_mut_strength = biasMutStrength; }
 
+            String get_ai_player_group_name() const { return ai_player_group_name; }
+            void set_ai_player_group_name(const String& groupName) { ai_player_group_name = groupName; }
             
+
 
             
     };
