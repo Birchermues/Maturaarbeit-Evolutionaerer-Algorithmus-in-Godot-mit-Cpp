@@ -20,6 +20,11 @@ void nn::_bind_methods() {
     ClassDB::bind_method(D_METHOD("solve", "Input"), &nn::solve);
     ClassDB::bind_method(D_METHOD("fill_connections"), &nn::fill_connections);
 
+    ClassDB::bind_method(D_METHOD("get_score"), &nn::get_score);
+    ClassDB::bind_method(D_METHOD("set_score", "score"), &nn::set_score);
+
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "score"), "set_score", "get_score");
+
     //ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "layer_sizes"), "set_layers", "get_layers");
 
 
@@ -183,7 +188,7 @@ void nn::mutate(float strength) {
     
 }
 
-bool nn::operator< (const nn &other) const {
-    return other.score < other.score;
+std::partial_ordering nn::operator<=> (const nn &other) const {
+    return other.score <=> other.score;
 }
 
