@@ -5,6 +5,9 @@
 #include "layer.h"
 
 #include <vector>
+#include <compare>
+#include <iostream>
+#include <set>
 
 namespace godot {
     class nn: public Node {
@@ -22,6 +25,7 @@ namespace godot {
 
             // NEURONS, LAYERS, CONNECTIONS, ETC.
             nn();
+            ~nn() noexcept = default;
             void set_layers(TypedArray<int> layer_layout);
             TypedArray<int> get_layers() const;
 
@@ -33,7 +37,7 @@ namespace godot {
             std::vector<float> float_serialize(const std::vector<Layer>& layers) const;
 
             void deserialize(const std::vector<std::byte>& binary);
-            void nn::float_deserialize(std::vector<float> &weights_and_biases);
+            void float_deserialize(std::vector<float> &weights_and_biases);
 
             void set_weights_and_biases(godot::TypedArray<float> weights_and_biases);
             godot::TypedArray<float> get_weights_and_biases() const;
@@ -47,11 +51,15 @@ namespace godot {
             //MUTATION, MIXING UP THE GENES, RANDOMNESS
             void mutate(float strength);
 
-            bool operator<(const nn &other) const;
+            std::partial_ordering operator<=>(const nn& other) const;
+            
 
             //TypedArray<float> scores;
             std::vector<float> scores;
             float score {0};
+
+            void set_score(float score_) { score = score_; }
+            float get_score() const { return score; }
 
             //float calc_score();
             

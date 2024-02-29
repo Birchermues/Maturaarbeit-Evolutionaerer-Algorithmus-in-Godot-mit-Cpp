@@ -31,8 +31,6 @@ namespace godot {
 
             TypedArray<nn> nns;
 
-            bool compare_nn();
-
             int get_generation() const { return generation; }
             void set_generation(int generation_) { generation = generation_; }
 
@@ -57,7 +55,9 @@ namespace godot {
             String get_ai_player_group_name() const { return ai_player_group_name; }
             void set_ai_player_group_name(const String& groupName) { ai_player_group_name = groupName; }
             
-
+            TypedArray<nn> get_nns() const { return nns; }
+            void set_nns(const TypedArray<nn>& nns_) { nns = nns_; }
+            //void add_nn(const nn& nn_) { nns.append()); }
 
             
     };

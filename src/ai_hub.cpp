@@ -11,9 +11,6 @@ using namespace godot;
 
 void ai_hub::_bind_methods() {
 
-
-    ClassDB::bind_method(D_METHOD("compare_nn"), &ai_hub::compare_nn);
-
     ClassDB::bind_method(D_METHOD("get_generation"), &ai_hub::get_generation);
     ClassDB::bind_method(D_METHOD("set_generation", "generation"), &ai_hub::set_generation);
 
@@ -37,7 +34,12 @@ void ai_hub::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("get_ai_player_group_name"), &ai_hub::get_ai_player_group_name);
     ClassDB::bind_method(D_METHOD("set_ai_player_group_name", "groupName"), &ai_hub::set_ai_player_group_name);
-    
+
+    ClassDB::bind_method(D_METHOD("get_nns"), &ai_hub::get_nns);
+    ClassDB::bind_method(D_METHOD("set_nns"), &ai_hub::set_nns);
+
+    ClassDB::bind_method(D_METHOD("sort_nns_on_score"), &ai_hub::sort_nns_on_score);
+
     
     ADD_PROPERTY(PropertyInfo(Variant::INT, "generation"), "set_generation", "get_generation");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "best_score"), "set_best_score", "get_best_score");
@@ -70,11 +72,5 @@ ai_hub::ai_hub() {
 
 
 void ai_hub::sort_nns_on_score() {
-    //nns.sort_custom(Callable(this, "compare_nn"));
-}
-
-
-bool ai_hub::compare_nn() {
-    //return (a.score > b.score);
-    return true;
+    nns.sort();
 }
