@@ -10,17 +10,18 @@ friction = 0.0
 radius = 46.25
 
 [node name="TankPlayer" type="RigidBody2D"]
+collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_4n8u6")
 gravity_scale = 0.0
 lock_rotation = true
 linear_damp = 3.81
 script = ExtResource("1_r4lbq")
-SPEED = 350.0
-amount_of_raycasts = 50
+SPEED = 700.0
+amount_of_raycasts = 0
 raycast_fov = 360.0
 raycast_dist = 3000.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D2" type="Sprite2D" parent="."]
 modulate = Color(1, 0, 0.0156863, 1)
 position = Vector2(0, -3.8147e-06)
 scale = Vector2(0.703125, 0.734378)
@@ -29,9 +30,23 @@ texture = ExtResource("1_dvwu7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_pkc4j")
 
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 3000, 0)
+width = 4.0
+
+[node name="Timer" type="Timer" parent="Line2D"]
+wait_time = 0.2
+one_shot = true
+
 [node name="Turret" type="Node2D" parent="."]
 
 [node name="Sprite2D" type="Sprite2D" parent="Turret"]
 position = Vector2(58.75, -0.749996)
 scale = Vector2(0.988281, 0.144531)
 texture = ExtResource("1_dvwu7")
+
+[node name="shoot_raycast" type="RayCast2D" parent="Turret"]
+target_position = Vector2(3000, 0)
+collision_mask = 3
+
+[connection signal="timeout" from="Line2D/Timer" to="." method="_on_timer_timeout"]

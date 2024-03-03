@@ -8,6 +8,7 @@
 #include <compare>
 #include <iostream>
 #include <set>
+//#include <godot_cpp\classes\resource.hpp>
 
 namespace godot {
     class nn: public Node {
@@ -24,8 +25,13 @@ namespace godot {
         public:
 
             // NEURONS, LAYERS, CONNECTIONS, ETC.
+
+
             nn();
             ~nn() noexcept = default;
+
+            //void set_network(const Resource &_network_res) {network = _network_res; }
+            
             void set_layers(TypedArray<int> layer_layout);
             TypedArray<int> get_layers() const;
 
