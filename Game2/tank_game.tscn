@@ -52,9 +52,12 @@ shader_parameter/w_and_b = PackedFloat32Array()
 [node name="Game" type="Node2D" parent="."]
 
 [node name="PlayerSpawn" type="ai_hub" parent="Game" node_paths=PackedStringArray("neural_net_visualizer")]
+mut_chance = 0.2
+weight_mut_strength = 0.3
+bias_mut_strength = 0.3
 script = ExtResource("1_h01d1")
 player_count = 50
-round_duration = 5.0
+round_duration = 7.0
 neural_net_visualizer = NodePath("../../Window/TextureRect")
 
 [node name="Camera2D" type="Camera2D" parent="Game"]

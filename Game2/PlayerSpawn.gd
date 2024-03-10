@@ -32,25 +32,35 @@ func _process(delta):
 func _on_round_timer_timeout():
 	print("round has ended, new one will start")
 	$"../RoundTimer".wait_time = round_duration
-	
+
 	sort_nns_on_score()
-	
+
 	
 	var scores : String = "scores: "
+	var avg_score : float = 0.0
+	var new_w_and_b = []
 	for i in range(get_nns().size()):
-		
+
 		players[i].position = Vector2(randf_range(0, 6200), randf_range(0, 3600))
 		
-		if i != 0:
-			get_nns()[i].set_weights_and_biases(get_nns()[floor(i*i/player_count)].get_weights_and_biases())
-			get_nns()[i].mutate(mut_chance, weight_mut_strength, bias_mut_strength)
-		else:
+		new_w_and_b.append(get_nns()[floor((i*i)/player_count)].get_weights_and_biases())
+		
+		if i == 0:
 			neural_net_visualizer.material.set_shader_parameter("w_and_b", get_nns()[0].get_weights_and_biases())
-
+		
+		print(i)
 		scores += " / " + str(get_nns()[i].score)
+		avg_score += get_nns()[i].score
 		get_nns()[i].score = 0
+	
 	print(scores)
+	print("Average Score: " + str(avg_score/player_count))
+	print(get_nns()[0].get_weights_and_biases()[0], get_nns()[0].get_weights_and_biases()[1])
+	for i in range(new_w_and_b.size()):
+		get_nns()[i].set_weights_and_biases(new_w_and_b[i])
+		get_nns()[i].mutate(mut_chance, weight_mut_strength, bias_mut_strength)
+	print(get_nns()[0].get_weights_and_biases()[0], get_nns()[0].get_weights_and_biases()[1])
 	
 	
 func custom_sort_func(a : nn, b : nn):
-	return a.score < b.score
+	return a.score > b.score

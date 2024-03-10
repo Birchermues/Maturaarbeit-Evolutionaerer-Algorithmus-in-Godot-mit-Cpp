@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-uniform float[4096] w_and_b;
+uniform float[2918] w_and_b;
 
 
 void vertex() {
@@ -9,15 +9,15 @@ void vertex() {
 
 void fragment() {
 	int id = 0;
-	int x = int(floor(UV.x *64.0));
-	int y = int(floor(UV.y * 64.0));
+	int x = int(floor(UV.x *54.0));
+	int y = int(floor(UV.y * 54.0));
 	
-	id = x * 64 + y;
+	id = x * 54 + y;
 	float value;
 
-	value = (w_and_b[id] + 3.0) * 0.16666;
+	value = (w_and_b[id] + 2.0) * 0.25;
 	
-	vec4 col1 = vec4(1.0, 1.0, 0.0, 1.0);
+	vec4 col1 = vec4(0.0, 1.0, 0.0, 1.0);
 	vec4 col2 = vec4(1.0, 0.0, 0.0, 1.0);
 	
 	
