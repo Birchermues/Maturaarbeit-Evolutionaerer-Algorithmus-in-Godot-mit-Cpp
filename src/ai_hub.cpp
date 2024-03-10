@@ -6,6 +6,8 @@
 
 #include <godot_cpp/variant/utility_functions.hpp>
 #include <godot_cpp/classes/engine.hpp>
+#include <algorithm>
+#include <array>
 
 using namespace godot;
 
@@ -40,6 +42,8 @@ void ai_hub::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("sort_nns_on_score"), &ai_hub::sort_nns_on_score);
 
+    //ClassDB::bind_method(D_METHOD("custom_sort_func", "a", "b"), &ai_hub::custom_sort_func);
+
     
     ADD_PROPERTY(PropertyInfo(Variant::INT, "generation"), "set_generation", "get_generation");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "best_score"), "set_best_score", "get_best_score");
@@ -50,13 +54,6 @@ void ai_hub::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "bias_mut_strength"), "set_bias_mut_strength", "get_bias_mut_strength");
     
 
-    // ClassDB::bind_method(D_METHOD("set_yPos", "yPos"), &ai_hub::set_yPos);
-    // ClassDB::bind_method(D_METHOD("set_layers", "layer_layout"), &ai_hub::set_layers);
-    // ClassDB::bind_method(D_METHOD("get_layers"), &ai_hub::get_layers);
-    // ClassDB::bind_method(D_METHOD("set_weights_and_biases", "weights_and_biases"), &ai_hub::set_weights_and_biases);
-    // ClassDB::bind_method(D_METHOD("get_weights_and_biases"), &ai_hub::get_weights_and_biases);
-    // ClassDB::bind_method(D_METHOD("solve", "Input"), &ai_hub::solve);
-    // ClassDB::bind_method(D_METHOD("fill_connections"), &ai_hub::fill_connections);
     // //ClassDB::add_property("yPos", PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
     // ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
     //ADD_SIGNAL(MethodInfo("lol_signal", PropertyInfo(Variant::INT, "number")));
@@ -71,6 +68,20 @@ ai_hub::ai_hub() {
 }
 
 
+Variant* begin(TypedArray<nn>& array) {
+    return &array[0];
+}
+
+Variant* end(TypedArray<nn>& array) {
+    return std::next(begin(array), array.size());
+}
+
+
 void ai_hub::sort_nns_on_score() {
-    nns.sort();
+
+
+    Callable custom_func = Callable(this, "custom_sort_func");
+
+
+    nns.sort_custom(custom_func);
 }

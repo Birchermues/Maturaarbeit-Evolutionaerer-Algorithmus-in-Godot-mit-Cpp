@@ -10,6 +10,19 @@ env.Append(CPPPATH=["src/"])
 # env.Append(CXXFLAGS="-std=c++0x")
 sources = Glob("src/*.cpp")
 
+# opts = Options()
+# opts.Add('RELEASE', 'Set to 1 to build for release', 0)
+
+# env.Append(options=opts, CPPDEFINES={'RELEASE_BUILD' : '${RELEASE}'})
+
+
+# Require C++20
+if env.get("is_msvc", False):
+    env.Append(CXXFLAGS=["/std:c++latest"])  # For MSVC
+else:
+    env.Append(CXXFLAGS=["-std=c++20"])  # For GCC and Clang
+
+
 if env["platform"] == "macos":
     library = env.SharedLibrary(
         "Game2/bin/nn.{}.{}.framework/nn.{}.{}".format(

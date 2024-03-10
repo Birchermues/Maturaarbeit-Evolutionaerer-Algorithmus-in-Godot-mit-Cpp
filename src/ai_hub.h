@@ -31,6 +31,24 @@ namespace godot {
 
             TypedArray<nn> nns;
 
+            // TypedArray<nn> convert_vector_to_typed_array(const std::vector<nn>& vector) {
+            //     TypedArray<nn> array;
+            //     array.resize(vector.size());
+            //     for (size_t i = 0; i < vector.size(); i++) {
+            //         array.push_back(&vector.at(i));
+            //     }
+            //     return array;
+            // }
+
+            // std::vector<nn> convert_typed_array_to_vector(const TypedArray<nn>& array) {
+            //     std::vector<nn> vector;
+            //     for (size_t i = 0; i < array.size(); i++) {
+            //         nn nn_ = VariantCaster<nn>::cast(array[i]);
+            //         vector.push_back(nn_);
+            //     }
+            //     return vector;
+            // }
+
             int get_generation() const { return generation; }
             void set_generation(int generation_) { generation = generation_; }
 
@@ -54,11 +72,11 @@ namespace godot {
 
             String get_ai_player_group_name() const { return ai_player_group_name; }
             void set_ai_player_group_name(const String& groupName) { ai_player_group_name = groupName; }
-            
-            TypedArray<nn> get_nns() const { return nns; }
+
+            TypedArray<nn> get_nns() { return nns; }
             void set_nns(const TypedArray<nn>& nns_) { nns = nns_; }
             //void add_nn(const nn& nn_) { nns.append()); }
 
-            
+            //bool custom_sort_func(const nn& a, const nn& b) { return a.get_score() < b.get_score();}
     };
 }

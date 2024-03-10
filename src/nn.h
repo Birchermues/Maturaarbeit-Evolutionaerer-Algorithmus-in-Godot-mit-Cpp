@@ -11,12 +11,9 @@
 //#include <godot_cpp\classes\resource.hpp>
 
 namespace godot {
-    class nn: public Node {
+    class nn : public Node {
         GDCLASS(nn, Node);
-                            
         private:
-
-
             std::vector<float> weights_and_biases;
         
         protected:
@@ -26,9 +23,7 @@ namespace godot {
 
             // NEURONS, LAYERS, CONNECTIONS, ETC.
 
-
-            nn();
-            ~nn() noexcept = default;
+            // nn();
 
             //void set_network(const Resource &_network_res) {network = _network_res; }
             
@@ -57,7 +52,11 @@ namespace godot {
             //MUTATION, MIXING UP THE GENES, RANDOMNESS
             void mutate(float strength);
 
+            void randomize_weights_and_biases(bool use_normal_distribution, float max_weight, float max_bias);
+
             std::partial_ordering operator<=>(const nn& other) const;
+
+            bool operator<(const nn& other) const;
             
 
             //TypedArray<float> scores;

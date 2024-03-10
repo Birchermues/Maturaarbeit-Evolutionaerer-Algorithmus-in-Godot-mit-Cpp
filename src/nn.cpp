@@ -23,6 +23,8 @@ void nn::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_score"), &nn::get_score);
     ClassDB::bind_method(D_METHOD("set_score", "score"), &nn::set_score);
 
+    ClassDB::bind_method(D_METHOD("randomize_weights_and_biases", "use_normal_distribution", "max_weight", "max_bias"), &nn::randomize_weights_and_biases);
+
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "score"), "set_score", "get_score");
 
     //ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "layer_sizes"), "set_layers", "get_layers");
@@ -32,11 +34,11 @@ void nn::_bind_methods() {
 
 }
 
-nn::nn() {
-    if (Engine::get_singleton()->is_editor_hint()) {
-        set_process_mode(Node::ProcessMode::PROCESS_MODE_DISABLED);
-    } 
-}
+// nn::nn() {
+//     if (Engine::get_singleton()->is_editor_hint()) {
+//         set_process_mode(Node::ProcessMode::PROCESS_MODE_DISABLED);
+//     } 
+// }
 
 
 void nn::set_layers(godot::TypedArray<int> layer_layout) {
@@ -62,7 +64,7 @@ godot::TypedArray<int> nn::get_layers() const {
         layer_layout.push_back(layer.neurons.size());
     }
 
-    UtilityFunctions::print(layer_layout);
+    //UtilityFunctions::print(layer_layout);
 
     return layer_layout;
 }
@@ -189,6 +191,37 @@ void nn::mutate(float strength) {
 }
 
 std::partial_ordering nn::operator<=> (const nn &other) const {
-    return other.score <=> other.score;
+    return score <=> other.score;
+}
+
+bool nn::operator<(const nn &other) const {
+    return score < other.score;
+}
+
+void nn::randomize_weights_and_biases(bool use_normal_distribution, float max_weight, float max_bias) {
+    int count = 0;
+
+    for (int i = 0; i < layers.size() - 1; i++) {
+        count += layers.at(i).neurons.size() * layers.at(i+1).neurons.size();
+    }
+    weights_and_biases.clear();
+
+
+
+    for (int i = 0; i < count; i++) {
+        if (use_normal_distribution) {
+            weights_and_biases.push_back(godot::UtilityFunctions::randfn(0.0f, max_weight));
+            weights_and_biases.push_back(godot::UtilityFunctions::randfn(0.0f, max_bias));
+        }
+        else {
+            weights_and_biases.push_back(godot::UtilityFunctions::randf_range(-max_weight, max_weight));
+            weights_and_biases.push_back(godot::UtilityFunctions::randf_range(-max_bias, max_bias));
+        }
+        
+
+    }
+    nn::float_deserialize(nn::weights_and_biases);
+    //set_weights_and_biases()
+    
 }
 
