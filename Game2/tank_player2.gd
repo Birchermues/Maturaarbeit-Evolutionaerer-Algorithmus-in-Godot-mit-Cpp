@@ -134,7 +134,7 @@ func _input(event):
 	
 func damage():
 	neural_net.score -= death_penalty
-	print("i have been damaged")
+	position = Vector2(randf_range(0, 6200), randf_range(0, 3600))
 
 
 func shoot():
@@ -165,3 +165,12 @@ func shoot():
 
 func _on_timer_timeout():
 	$Line2D.visible = false
+
+
+
+
+
+func _on_body_entered(body):
+
+	if body.get_class() == "RigidBody2D":
+		neural_net.score -= 0.25

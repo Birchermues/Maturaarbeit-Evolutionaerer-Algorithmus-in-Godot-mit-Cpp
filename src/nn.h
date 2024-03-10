@@ -50,7 +50,7 @@ namespace godot {
 
 
             //MUTATION, MIXING UP THE GENES, RANDOMNESS
-            void mutate(float strength);
+            void mutate(float mut_chance, float weight_mut_strength, float bias_mut_strength);
 
             void randomize_weights_and_biases(bool use_normal_distribution, float max_weight, float max_bias);
 

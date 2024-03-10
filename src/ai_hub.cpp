@@ -41,7 +41,8 @@ void ai_hub::_bind_methods() {
     ClassDB::bind_method(D_METHOD("set_nns"), &ai_hub::set_nns);
 
     ClassDB::bind_method(D_METHOD("sort_nns_on_score"), &ai_hub::sort_nns_on_score);
-
+    
+    ClassDB::bind_method(D_METHOD("inherit"), &ai_hub::inherit);
     //ClassDB::bind_method(D_METHOD("custom_sort_func", "a", "b"), &ai_hub::custom_sort_func);
 
     
@@ -84,4 +85,28 @@ void ai_hub::sort_nns_on_score() {
 
 
     nns.sort_custom(custom_func);
+}
+
+
+void ai_hub::inherit() {
+    for (int i = 0; i < nns.size(); i++) {
+        Object* obj = nns[i];
+        Node *nn_ = Object::cast_to<Node>(obj);
+        nn *nn__ = reinterpret_cast<nn*>(nn_);
+        if (nn__ == nullptr) {
+            UtilityFunctions::print("I fucking hate nullpointers");
+            continue;
+        }
+        Object* obj2 = nns[0];
+        Node *nn2_ = Object::cast_to<Node>(obj2);
+        nn *nn2__ = reinterpret_cast<nn*>(nn2_); //FUCK es het nid funktioniert
+        if (nn2__ == nullptr) {
+            UtilityFunctions::print("I fucking hate nullpointers 2");
+            continue;
+        }
+
+        nn__->set_weights_and_biases(nn2__->get_weights_and_biases());
+        //nn_.set_weights_and_biases(Object::cast_to<nn>(nns[floor(float(nns.size())/float(i)) - 1])->get_weights_and_biases())
+    }
+    
 }

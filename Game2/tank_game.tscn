@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://ca03qpvgdff2s"]
+[gd_scene load_steps=12 format=3 uid="uid://ca03qpvgdff2s"]
 
 [ext_resource type="Script" path="res://PlayerSpawn.gd" id="1_h01d1"]
 [ext_resource type="Texture2D" uid="uid://6o4oro7fmeh8" path="res://icon.svg" id="3_1lehf"]
 [ext_resource type="Script" path="res://ai_dev_info.gd" id="3_nx2ra"]
+[ext_resource type="Shader" path="res://neural_net_visualizer.gdshader" id="4_8rn4f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_flkoe"]
 resource_name = "Base"
@@ -42,13 +43,19 @@ normal = Vector2(0, 1)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_561th"]
 distance = -3600.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kckm7"]
+shader = ExtResource("4_8rn4f")
+shader_parameter/w_and_b = PackedFloat32Array()
+
 [node name="TankGame" type="Node"]
 
 [node name="Game" type="Node2D" parent="."]
 
-[node name="PlayerSpawn" type="ai_hub" parent="Game"]
+[node name="PlayerSpawn" type="ai_hub" parent="Game" node_paths=PackedStringArray("neural_net_visualizer")]
 script = ExtResource("1_h01d1")
 player_count = 50
+round_duration = 5.0
+neural_net_visualizer = NodePath("../../Window/TextureRect")
 
 [node name="Camera2D" type="Camera2D" parent="Game"]
 position = Vector2(3200, 1800)
@@ -85,7 +92,7 @@ autostart = true
 [node name="Window" type="Window" parent="."]
 transparent_bg = true
 title = "AI Training"
-position = Vector2i(636, 36)
+position = Vector2i(562, 36)
 size = Vector2i(600, 170)
 always_on_top = true
 transparent = true
@@ -103,6 +110,7 @@ autowrap_mode = 0
 script = ExtResource("3_nx2ra")
 
 [node name="TextureRect" type="TextureRect" parent="Window"]
+material = SubResource("ShaderMaterial_kckm7")
 layout_direction = 3
 offset_right = 40.0
 offset_bottom = 40.0

@@ -25,6 +25,8 @@ void nn::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("randomize_weights_and_biases", "use_normal_distribution", "max_weight", "max_bias"), &nn::randomize_weights_and_biases);
 
+    ClassDB::bind_method(D_METHOD("mutate", "mut_chance", "weight_mut_strength", "bias_mut_strength"), &nn::mutate);
+
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "score"), "set_score", "get_score");
 
     //ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "layer_sizes"), "set_layers", "get_layers");
@@ -186,9 +188,6 @@ godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
     return outputs;
 }
 
-void nn::mutate(float strength) {
-    
-}
 
 std::partial_ordering nn::operator<=> (const nn &other) const {
     return score <=> other.score;
@@ -224,4 +223,19 @@ void nn::randomize_weights_and_biases(bool use_normal_distribution, float max_we
     //set_weights_and_biases()
     
 }
+
+void nn::mutate(float mut_chance, float weight_mut_strength, float bias_mut_strength) {
+    for (int i = 0; i < weights_and_biases.size() / 2; i++) {
+        if (godot::UtilityFunctions::randf() < mut_chance) {
+            if (godot::UtilityFunctions::randf() < 0.5f) {
+                weights_and_biases[i * 2] += godot::UtilityFunctions::randf_range(-weight_mut_strength, weight_mut_strength);
+            }
+            else {
+                weights_and_biases[i * 2 + 1] += godot::UtilityFunctions::randf_range(-bias_mut_strength, bias_mut_strength);
+            }
+        }
+    }
+    nn::float_deserialize(nn::weights_and_biases);
+}
+
 
