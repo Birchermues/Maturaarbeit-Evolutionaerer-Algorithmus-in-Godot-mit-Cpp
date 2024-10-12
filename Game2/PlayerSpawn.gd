@@ -48,20 +48,18 @@ func _on_round_timer_timeout():
 		if i == 0:
 			neural_net_visualizer.material.set_shader_parameter("w_and_b", get_nns()[0].get_weights_and_biases())
 		
+		print(i)
 		scores += " / " + str(get_nns()[i].score)
 		avg_score += get_nns()[i].score
 		get_nns()[i].score = 0
 	
 	print(scores)
 	print("Average Score: " + str(avg_score/player_count))
-	
-	if (train_ai):
-		print(get_nns().size())
-		print(get_nns()[0].get_weights_and_biases()[0], get_nns()[0].get_weights_and_biases()[1])
-		for i in range(new_w_and_b.size()):
-			get_nns()[i].set_weights_and_biases(new_w_and_b[i])
-			get_nns()[i].mutate(mut_chance, weight_mut_strength, bias_mut_strength)
-		print(get_nns()[0].get_weights_and_biases()[0], get_nns()[0].get_weights_and_biases()[1])
+	print(get_nns()[0].get_weights_and_biases()[0], get_nns()[0].get_weights_and_biases()[1])
+	for i in range(new_w_and_b.size()):
+		get_nns()[i].set_weights_and_biases(new_w_and_b[i])
+		get_nns()[i].mutate(mut_chance, weight_mut_strength, bias_mut_strength)
+	print(get_nns()[0].get_weights_and_biases()[0], get_nns()[0].get_weights_and_biases()[1])
 	
 	
 func custom_sort_func(a : nn, b : nn):
