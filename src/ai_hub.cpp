@@ -42,9 +42,7 @@ void ai_hub::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("sort_nns_on_score"), &ai_hub::sort_nns_on_score);
     
-    ClassDB::bind_method(D_METHOD("inherit"), &ai_hub::inherit);
-    //ClassDB::bind_method(D_METHOD("custom_sort_func", "a", "b"), &ai_hub::custom_sort_func);
-
+    //ClassDB::bind_method(D_METHOD("inherit"), &ai_hub::inherit);
     
     ADD_PROPERTY(PropertyInfo(Variant::INT, "generation"), "set_generation", "get_generation");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "best_score"), "set_best_score", "get_best_score");
@@ -53,12 +51,6 @@ void ai_hub::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "mut_chance"), "set_mut_chance", "get_mut_chance");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_mut_strength"), "set_weight_mut_strength", "get_weight_mut_strength");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "bias_mut_strength"), "set_bias_mut_strength", "get_bias_mut_strength");
-    
-
-    // //ClassDB::add_property("yPos", PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
-    // ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "yPos"), "set_yPos", "get_yPos");
-    //ADD_SIGNAL(MethodInfo("lol_signal", PropertyInfo(Variant::INT, "number")));
-
 }
 
 
@@ -79,34 +71,28 @@ Variant* end(TypedArray<nn>& array) {
 
 
 void ai_hub::sort_nns_on_score() {
-
-
     Callable custom_func = Callable(this, "custom_sort_func");
-
-
     nns.sort_custom(custom_func);
 }
 
 
+// unbenutzte Funktion, welche in godot mit gdscript implementiert ist
 void ai_hub::inherit() {
     for (int i = 0; i < nns.size(); i++) {
         Object* obj = nns[i];
         Node *nn_ = Object::cast_to<Node>(obj);
         nn *nn__ = reinterpret_cast<nn*>(nn_);
         if (nn__ == nullptr) {
-            UtilityFunctions::print("I fucking hate nullpointers");
+            UtilityFunctions::print("nullpointer error");
             continue;
         }
         Object* obj2 = nns[0];
         Node *nn2_ = Object::cast_to<Node>(obj2);
         nn *nn2__ = reinterpret_cast<nn*>(nn2_); //FUCK es het nid funktioniert
         if (nn2__ == nullptr) {
-            UtilityFunctions::print("I fucking hate nullpointers 2");
+            UtilityFunctions::print("nullpointer error 2");
             continue;
         }
-
         nn__->set_weights_and_biases(nn2__->get_weights_and_biases());
-        //nn_.set_weights_and_biases(Object::cast_to<nn>(nns[floor(float(nns.size())/float(i)) - 1])->get_weights_and_biases())
     }
-    
 }

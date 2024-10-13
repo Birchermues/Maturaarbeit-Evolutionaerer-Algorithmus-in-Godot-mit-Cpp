@@ -36,38 +36,22 @@ void nn::_bind_methods() {
 
 }
 
-// nn::nn() {
-//     if (Engine::get_singleton()->is_editor_hint()) {
-//         set_process_mode(Node::ProcessMode::PROCESS_MODE_DISABLED);
-//     } 
-// }
 
 
 void nn::set_layers(godot::TypedArray<int> layer_layout) {
     std::vector<int> sizes;
-
-    // std::for_each(&layer_layout.front(), (&layer_layout.back()), [&sizes](int size){
-        
-    // });
-
     for (int i = 0; i < layer_layout.size(); i++) {
         sizes.push_back(layer_layout[i]);
     }
-
     layers = create_layers(sizes);
 }
 
 
 godot::TypedArray<int> nn::get_layers() const {
-
     godot::TypedArray<int> layer_layout;
-
     for (const Layer& layer : layers) {
         layer_layout.push_back(layer.neurons.size());
     }
-
-    //UtilityFunctions::print(layer_layout);
-
     return layer_layout;
 }
 
@@ -90,7 +74,7 @@ void nn::fill_connections() {
             {
                 neuron.connections.clear();
                 for(Neuron& past_neuron : past_layer->neurons) {
-                    neuron.connections.push_back(Connection{0.0f, 0.0f, past_neuron});
+                    neuron.connections.push_back(Connection{0.0f, past_neuron});
                 }
             }
         }
@@ -99,48 +83,48 @@ void nn::fill_connections() {
 }
 
 std::vector<float> nn::float_serialize(const std::vector<Layer>& layers) const {
+    // leerer Vektor für Gewichte und Biases
     std::vector<float> weights_and_biases;
 
-    for (const Layer& layer : layers) {
+    // Gewichte und Biases nach genauer Reihemfolge in den Vektor einfügen
+    // erste Schicht wird übersprungen, da diese keine Verbindungen hat
+    for (int i = 1; i < layers.size(); i++) {
+        const Layer& layer = layers.at(i);
         for (const Neuron& neuron : layer.neurons) {
             for (const Connection& connection : neuron.connections) {
                 weights_and_biases.push_back(connection.weight);
             }
+            // nach den Gewichten der Verbindungen des Neurons folgt dessen Bias
+            weights_and_biases.push_back(neuron.bias);
         }
     }
-
     return weights_and_biases;
 }
 
 std::vector<std::byte> nn::serialize() const {
     std::vector<std::byte> bytes;
-
     std::vector<float> values = nn::float_serialize(layers);
-
     bytes.resize(values.size() * sizeof(float));
-
     std::memcpy(bytes.data(), values.data(), bytes.size());
-
     return bytes;
 }
 
 
 void nn::float_deserialize(std::vector<float> &weights_and_biases) {
     int index = 0;
-    for (Layer& layer : layers) {
+    // Gewichte und Biases in die Schichten einfügen
+    // erste Schicht wird übersprungen, da diese keine Verbindungen hat
+    for (int i = 1; i < layers.size(); i++) {
+        Layer& layer = layers.at(i);
         for (Neuron& neuron : layer.neurons) {
             for (Connection& connection : neuron.connections) {
                 connection.weight = weights_and_biases.at(index);
-                connection.bias = weights_and_biases.at(index + 1);
-
-                index += 2;
+                index += 1;
             }
+            neuron.bias = weights_and_biases.at(index);
+            index += 1;
         }
     }
-}
-
-void nn::deserialize(const std::vector<std::byte> &binary) {
-    
 }
 
 
@@ -164,19 +148,21 @@ godot::TypedArray<float> nn::get_weights_and_biases() const {
 }
 
 
+// vorwärtsschritt (berechnung des outputs mit gegebenem input)
 godot::TypedArray<float> nn::solve(godot::TypedArray<float> Inputs) {
     {
+        // inputs werden in die erste Schicht geladen
         int i = 0;
         for (Neuron &neuron : layers.at(0).neurons) {
             neuron.value = Inputs[i];
             i++;
         }
     }
-
+    // berechnung der Werte der Neuronen schichtenweise
     for (int i = 1; i < layers.size(); i++) {
         layers.at(i).calc_values();
     }
-
+    // auslesen der Werte der Neuronen der letzten Schicht
     Layer output_layer = layers.at(layers.size()-1);
 
 
@@ -220,19 +206,12 @@ void nn::randomize_weights_and_biases(bool use_normal_distribution, float max_we
 
     }
     nn::float_deserialize(nn::weights_and_biases);
-    //set_weights_and_biases()
-    
 }
 
-void nn::mutate(float mut_chance, float weight_mut_strength, float bias_mut_strength) {
-    for (int i = 0; i < weights_and_biases.size() / 2; i++) {
+void nn::mutate(float mut_chance, float mut_strength) {
+    for (int i = 0; i < weights_and_biases.size(); i++) {
         if (godot::UtilityFunctions::randf() < mut_chance) {
-            if (godot::UtilityFunctions::randf() < 0.5f) {
-                weights_and_biases[i * 2] += godot::UtilityFunctions::randf_range(-weight_mut_strength, weight_mut_strength);
-            }
-            else {
-                weights_and_biases[i * 2 + 1] += godot::UtilityFunctions::randf_range(-bias_mut_strength, bias_mut_strength);
-            }
+            weights_and_biases[i] += godot::UtilityFunctions::randf_range(-mut_strength, mut_strength);
         }
     }
     nn::float_deserialize(nn::weights_and_biases);

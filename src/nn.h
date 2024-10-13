@@ -14,6 +14,8 @@ namespace godot {
     class nn : public Node {
         GDCLASS(nn, Node);
         private:
+
+            // Gewichte und Biases welche seriell gespeichert werden
             std::vector<float> weights_and_biases;
         
         protected:
@@ -21,54 +23,43 @@ namespace godot {
 
         public:
 
-            // NEURONS, LAYERS, CONNECTIONS, ETC.
+            // enthaltenen Schichten
+            std::vector<Layer> layers;
 
-            // nn();
-
-            //void set_network(const Resource &_network_res) {network = _network_res; }
-            
+            // Schichtengrösse bzw. Anzahl der Neuronen pro Schicht
             void set_layers(TypedArray<int> layer_layout);
             TypedArray<int> get_layers() const;
 
-            std::vector<Layer> layers;
-
+            // Verbindungen zwischen den Neuronen korrekt initialisieren
             void fill_connections();
 
+            // Gewichte und Biases serialisieren und deserialisieren
             std::vector<std::byte> serialize() const;
             std::vector<float> float_serialize(const std::vector<Layer>& layers) const;
-
-            void deserialize(const std::vector<std::byte>& binary);
             void float_deserialize(std::vector<float> &weights_and_biases);
 
+            // Gewichte und Biases setzen und abrufen
             void set_weights_and_biases(godot::TypedArray<float> weights_and_biases);
             godot::TypedArray<float> get_weights_and_biases() const;
 
 
-            //SOLVING, FORWARD PROPAGATION
-
+            // vorwärtsschritt (berechnung des outputs mit gegebenem input)
             godot::TypedArray<float> solve(godot::TypedArray<float> Inputs);
 
 
-            //MUTATION, MIXING UP THE GENES, RANDOMNESS
-            void mutate(float mut_chance, float weight_mut_strength, float bias_mut_strength);
+            // mutation
+            void mutate(float mut_chance, float mut_strength);
 
+            // zufällige initialisierung der Gewichte und Biases
             void randomize_weights_and_biases(bool use_normal_distribution, float max_weight, float max_bias);
 
+
+            // score des spielers mit diesem neuronalen netz
             std::partial_ordering operator<=>(const nn& other) const;
-
             bool operator<(const nn& other) const;
-            
-
-            //TypedArray<float> scores;
-            std::vector<float> scores;
             float score {0};
-
             void set_score(float score_) { score = score_; }
             float get_score() const { return score; }
-
-            //float calc_score();
-            
-            //void reset_score();
     };
 }
 

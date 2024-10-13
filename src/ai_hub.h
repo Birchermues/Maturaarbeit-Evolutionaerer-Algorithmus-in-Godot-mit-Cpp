@@ -31,21 +31,28 @@ namespace godot {
 
             TypedArray<nn> nns;
 
+
+            // unbenutzt
             int get_generation() const { return generation; }
             void set_generation(int generation_) { generation = generation_; }
 
+            // unbenutzt
             float get_best_score() const { return best_score; }
             void set_best_score(float bestScore) { best_score = bestScore; }
 
+            // unbenutzt
             bool get_train_ai() const { return train_ai; }
             void set_train_ai(bool trainAi) { train_ai = trainAi; }
 
+            // unbenutzt
             int get_num_players() const { return num_players; }
             void set_num_players(int numPlayers) { num_players = numPlayers; }
 
+            // chance mit der ein float wert mutiert
             float get_mut_chance() const { return mut_chance; }
             void set_mut_chance(float mutChance) { mut_chance = mutChance; }
 
+            // chance 
             float get_weight_mut_strength() const { return weight_mut_strength; }
             void set_weight_mut_strength(float weightMutStrength) { weight_mut_strength = weightMutStrength; }
 
@@ -57,10 +64,8 @@ namespace godot {
 
             TypedArray<nn> get_nns() { return nns; }
             void set_nns(const TypedArray<nn>& nns_) { nns = nns_; }
-            //void add_nn(const nn& nn_) { nns.append()); }
 
-            //bool custom_sort_func(const nn& a, const nn& b) { return a.get_score() < b.get_score();}
-
+            // unbenutzt
             void inherit();
 
     };

@@ -56,7 +56,6 @@ mut_chance = 0.2
 weight_mut_strength = 0.3
 bias_mut_strength = 0.3
 script = ExtResource("1_h01d1")
-player_count = 50
 round_duration = 7.0
 neural_net_visualizer = NodePath("../../Window/TextureRect")
 
