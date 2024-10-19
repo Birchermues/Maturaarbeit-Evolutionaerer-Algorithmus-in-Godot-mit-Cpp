@@ -22,8 +22,8 @@ namespace godot {
             int num_players = 1;
 
             float mut_chance = 0.1f;
-            float weight_mut_strength = 0.1f;
-            float bias_mut_strength = 0.1f;
+            float mut_strength = 0.1f;
+
 
             String ai_player_group_name;
 
@@ -52,16 +52,15 @@ namespace godot {
             float get_mut_chance() const { return mut_chance; }
             void set_mut_chance(float mutChance) { mut_chance = mutChance; }
 
-            // chance 
-            float get_weight_mut_strength() const { return weight_mut_strength; }
-            void set_weight_mut_strength(float weightMutStrength) { weight_mut_strength = weightMutStrength; }
+            // stärke der mutation
+            float get_mut_strength() const { return mut_strength; }
+            void set_mut_strength(float MutStrength) { mut_strength = MutStrength; }
 
-            float get_bias_mut_strength() const { return bias_mut_strength; }
-            void set_bias_mut_strength(float biasMutStrength) { bias_mut_strength = biasMutStrength; }
 
             String get_ai_player_group_name() const { return ai_player_group_name; }
             void set_ai_player_group_name(const String& groupName) { ai_player_group_name = groupName; }
 
+            // die neuronalen netze
             TypedArray<nn> get_nns() { return nns; }
             void set_nns(const TypedArray<nn>& nns_) { nns = nns_; }
 

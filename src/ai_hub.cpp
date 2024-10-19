@@ -28,11 +28,9 @@ void ai_hub::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_mut_chance"), &ai_hub::get_mut_chance);
     ClassDB::bind_method(D_METHOD("set_mut_chance", "mutChance"), &ai_hub::set_mut_chance);
 
-    ClassDB::bind_method(D_METHOD("get_weight_mut_strength"), &ai_hub::get_weight_mut_strength);
-    ClassDB::bind_method(D_METHOD("set_weight_mut_strength", "weightMutStrength"), &ai_hub::set_weight_mut_strength);
+    ClassDB::bind_method(D_METHOD("get_mut_strength"), &ai_hub::get_mut_strength);
+    ClassDB::bind_method(D_METHOD("set_mut_strength", "MutStrength"), &ai_hub::set_mut_strength);
 
-    ClassDB::bind_method(D_METHOD("get_bias_mut_strength"), &ai_hub::get_bias_mut_strength);
-    ClassDB::bind_method(D_METHOD("set_bias_mut_strength", "biasMutStrength"), &ai_hub::set_bias_mut_strength);
 
     ClassDB::bind_method(D_METHOD("get_ai_player_group_name"), &ai_hub::get_ai_player_group_name);
     ClassDB::bind_method(D_METHOD("set_ai_player_group_name", "groupName"), &ai_hub::set_ai_player_group_name);
@@ -49,8 +47,7 @@ void ai_hub::_bind_methods() {
     ADD_PROPERTY(PropertyInfo(Variant::BOOL, "train_ai"), "set_train_ai", "get_train_ai");
     ADD_PROPERTY(PropertyInfo(Variant::INT, "num_players"), "set_num_players", "get_num_players");
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "mut_chance"), "set_mut_chance", "get_mut_chance");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "weight_mut_strength"), "set_weight_mut_strength", "get_weight_mut_strength");
-    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "bias_mut_strength"), "set_bias_mut_strength", "get_bias_mut_strength");
+    ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "mut_strength"), "set_mut_strength", "get_mut_strength");
 }
 
 

@@ -25,7 +25,7 @@ void nn::_bind_methods() {
 
     ClassDB::bind_method(D_METHOD("randomize_weights_and_biases", "use_normal_distribution", "max_weight", "max_bias"), &nn::randomize_weights_and_biases);
 
-    ClassDB::bind_method(D_METHOD("mutate", "mut_chance", "weight_mut_strength", "bias_mut_strength"), &nn::mutate);
+    ClassDB::bind_method(D_METHOD("mutate", "mut_chance", "mut_strength"), &nn::mutate);
 
     ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "score"), "set_score", "get_score");
 
@@ -208,9 +208,13 @@ void nn::randomize_weights_and_biases(bool use_normal_distribution, float max_we
     nn::float_deserialize(nn::weights_and_biases);
 }
 
+
+// mut_chance steht für die Wahrscheinlichkeit, dass ein Wert mutiert
+// mut_strength steht für die maximale Stärke der Mutation
 void nn::mutate(float mut_chance, float mut_strength) {
     for (int i = 0; i < weights_and_biases.size(); i++) {
         if (godot::UtilityFunctions::randf() < mut_chance) {
+            // falls es zu einer Mutation kommt, wird der Wert um einen zufälligen wert zwischen -mut_strength und mut_strength verändert
             weights_and_biases[i] += godot::UtilityFunctions::randf_range(-mut_strength, mut_strength);
         }
     }

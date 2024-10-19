@@ -53,8 +53,7 @@ shader_parameter/w_and_b = PackedFloat32Array()
 
 [node name="PlayerSpawn" type="ai_hub" parent="Game" node_paths=PackedStringArray("neural_net_visualizer")]
 mut_chance = 0.2
-weight_mut_strength = 0.3
-bias_mut_strength = 0.3
+mut_strength = 0.4
 script = ExtResource("1_h01d1")
 round_duration = 7.0
 neural_net_visualizer = NodePath("../../Window/TextureRect")

@@ -39,17 +39,16 @@ func _on_round_timer_timeout():
 	var scores : String = "scores: "
 	var avg_score : float = 0.0
 	
-	#liste mit allen neuen neuronalen netzen erstellen
-	var new_w_and_b = []
-	
 	# das neuronale netzwerk des besten spielers visualisieren
 	neural_net_visualizer.material.set_shader_parameter("w_and_b", get_nns()[0].get_weights_and_biases())
 	
+	#liste mit allen neuen serialisierten gewichten und biases des neuronalen netzes erstellen
+	var new_w_and_b = []
 	for i in range(get_nns().size()):
 		# genetische elite wird überproportional in der nächsten generation vertreten
 		new_w_and_b.append(get_nns()[floor((i*i)/player_count)].get_weights_and_biases())
 		
-		
+		# scores anzeigen
 		scores += " / " + str(get_nns()[i].score)
 		avg_score += get_nns()[i].score
 		
@@ -57,7 +56,7 @@ func _on_round_timer_timeout():
 		get_nns()[i].score = 0
 		players[i].position = Vector2(randf_range(0, 6200), randf_range(0, 3600))
 	
-	
+	# scores anzeigen
 	print(scores)
 	print("Average Score: " + str(avg_score/player_count))
 
@@ -65,7 +64,7 @@ func _on_round_timer_timeout():
 		# die gewichte werden neu verteilt
 		get_nns()[i].set_weights_and_biases(new_w_and_b[i])
 		# mutation
-		get_nns()[i].mutate(mut_chance, weight_mut_strength)
+		get_nns()[i].mutate(mut_chance, mut_strength) 
 	
 
 # funktion mit der die neuronalen netze der spieler nach Score sortiert werden

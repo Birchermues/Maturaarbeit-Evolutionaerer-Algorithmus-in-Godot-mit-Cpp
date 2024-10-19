@@ -37,7 +37,8 @@ func _ready():
 	# alle strahlen werden erstellt
 	for i in range(amount_of_raycasts):
 		var ray : RayCast2D = RayCast2D.new()
-		#var line : Line2D = Line2D.new()  # debug linien
+		# debug linien zeichnen
+		#var line : Line2D = Line2D.new()  
 		
 		var rot : float = raycast_fov / -2.0 + (i * raycast_fov / (amount_of_raycasts - 1 + offset))
 		ray.target_position = Vector2(cos(deg_to_rad(rot)), sin(deg_to_rad(rot))) * raycast_dist
